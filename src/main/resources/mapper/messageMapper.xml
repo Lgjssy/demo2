@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.messageMapper">
+    <select id="findAllByType" resultType="com.example.demo.entity.Message">
+        select *
+        from message
+        where receiver_id=#{param1} and type=#{param2}
+    </select>
+    <insert id="addMessAge">
+        insert into message
+            values (#{content},#{sender_id},#{receiver_id},#{type},#{date})
+    </insert>
+</mapper>

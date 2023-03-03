@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.userMapper">
+    <select id="findUserList" resultType="com.example.demo.entity.User">
+        select *
+        from user
+    </select>
+    <select id="findUserByName" parameterType="string" resultType="com.example.demo.entity.User">
+        select *
+        from user
+        where user_name like CONCAT('%',#{name},'%')
+    </select>
+    <select id="FindUser" parameterType="string" resultType="com.example.demo.entity.User">
+        select *
+        from user
+        where User_Id=#{id}
+    </select>
+    <select id="FindPassword" parameterType="string" resultType="string">
+        select password
+        from user
+        where user_id=#{id}
+    </select>
+    <insert id="addNewUser" parameterType="com.example.demo.entity.User">
+        insert into user
+        values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7})
+    </insert>
+    <select id="FindPosition" parameterType="string" resultType="string">
+        select position
+        from user
+        where user_id=#{id}
+    </select>
+    <select id="FindUserDetails" parameterType="string" resultType="java.util.Map">
+        select *
+        from user
+        where user_id=#{id}
+    </select>
+    <select id="findFollower" resultType="java.lang.String">
+        select *
+        from user_relationship
+        where user_id=#{id}
+    </select>
+    <select id="findUserArticle" resultType="java.lang.String">
+        select article_id
+        from article
+        where writer_id=#{id} and state="已发布"
+    </select>
+    <select id="findUserName" resultType="java.lang.String">
+        select user_name
+        from user
+        where user_id=#{id}
+    </select>
+    <select id="findUserPhoto" resultType="java.lang.String">
+        select photo_file
+        from user
+        where user_id=#{id}
+    </select>
+    <select id="findMyUp" resultType="java.lang.String">
+        select user_id
+        from user_relationship
+        where follower_id=#{id}
+    </select>
+    <select id="findUserByName1" resultType="com.example.demo.entity.User">
+        select *
+        from user
+        where user_name=#{name}
+    </select>
+    <insert id="addFollower">
+        insert into user_relationship
+            values (#{param1},#{param2})
+    </insert>
+    <delete id="deleteFollow">
+        delete
+            from user_relationship
+        where user_id=#{param1} and follower_id=#{param2}
+    </delete>
+</mapper>

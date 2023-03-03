@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.article_mapper">
+<select id="all_articles" resultType="com.example.demo.entity.Article">
+select *
+    from article
+</select>
+    <select id="articles_by_writer" parameterType="string" resultType="com.example.demo.entity.Article">
+        select *
+        from article
+        where writer_id=#{user_id} and state='已发布'
+    </select>
+    <select id="articles_by_state" parameterType="string" resultType="com.example.demo.entity.Article">
+        select *
+        from article
+        where state=#{state}
+    </select>
+    <select id="personal_articles_by_state" parameterType="string" resultType="com.example.demo.entity.Article">
+        select *
+        from article
+        where writer_id=#{param1} and  state=#{param2}
+    </select>
+<select id="articles_by_topic" parameterType="string" resultType="com.example.demo.entity.Article">
+    select *
+    from article
+    where toplic=#{topic}
+</select>
+    <select id="articles_by_key_words" parameterType="string" resultType="com.example.demo.entity.Article">
+        select *
+        from article
+        where article_title like CONCAT('%',#{words},'%')
+    </select>
+    <select id="articles_by_key_words1" parameterType="string" resultType="com.example.demo.entity.Article">
+        select *
+        from article
+        where topic like CONCAT('%',#{words},'%')
+    </select>
+    <insert id="add_article">
+        insert into article(article_introduction,writer_id,topic,article_title,state,type,date,article_cover)
+            values (#{article_introduction},#{writer_id},#{topic},#{article_title},#{state},#{type},#{date},#{article_cover})
+    </insert>
+    <update id="change_state" parameterType="string">
+    update article
+        set state=#{param2}
+        where article_id=#{param1}
+    </update>
+    <delete id="delete_article" parameterType="string">
+        delete from article
+        where article_id=#{article_id}
+    </delete>
+    <select id="findArticleByLike" resultType="java.lang.String">
+        select article.article_id
+        from like_relationship,article
+        where user_id=#{id} and article.state='已发布'
+    </select>
+    <select id="findArticleByShare" resultType="java.lang.String">
+        select article.article_id
+        from share_relationship,article
+        where share_relationship.user_id=#{id} and article.state='已发布'
+    </select>
+    <select id="findArticleById" resultType="com.example.demo.entity.Article">
+        select *
+        from article
+        where article_id=#{id}
+    </select>
+    <select id="likes" resultType="java.lang.String">
+        select article_id
+        from like_relationship
+        where article_id=#{id}
+    </select>
+    <select id="comment" resultType="java.lang.String">
+        select article_id
+        from discuss_relationship
+        where article_id=#{id}
+    </select>
+    <select id="shares" resultType="java.lang.String">
+        select article_id
+        from share_relationship
+        where article_id=#{id}
+    </select>
+    <select id="findRoughById" resultType="com.example.demo.entity.Article">
+        select *
+        from article
+        where writer_id=#{id} and state='草稿'
+    </select>
+    <select id="findAuditById" resultType="com.example.demo.entity.Article">
+        select *
+        from article
+        where writer_id=#{id} and state='审核中'
+    </select>
+    <select id="findArticle" parameterType="string" resultType="com.example.demo.entity.Article">
+        select *
+        from article
+        where article_title=#{name}
+    </select>
+    <select id="findDiscuss" resultType="com.example.demo.entity.Discuss">
+        select *
+        from discuss_relationship
+        where article_id=#{id}
+    </select>
+    <select id="findId" resultType="java.lang.Integer">
+        select article_id
+        from article
+        where article_title=#{id}
+    </select>
+    <select id="find_type" resultType="java.lang.String">
+        select state
+        from article
+        where article_title=#{name}
+    </select>
+    <insert id="addDiscuss">
+        insert into discuss_relationship
+            values (#{param1},#{param2},#{param3},#{param4},#{param5})
+    </insert>
+    <insert id="addShare">
+        insert into share_relationship
+            values (#{param1},#{param2},#{param3})
+    </insert>
+    <insert id="addLike">
+        insert into like_relationship
+        values (#{param1},#{param2},#{param3})
+    </insert>
+    <update id="changeArticle">
+        update article
+        set article_introduction=#{param2},writer_id=#{param3},topic=#{param4},article_title=#{param5},state=#{param6},type=#{param7},date=#{param8},article_cover =#{param9}
+        where article_id=#{param1}
+    </update>
+</mapper>
